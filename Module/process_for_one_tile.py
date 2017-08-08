@@ -26,6 +26,20 @@ from wndcharm.PyImageMatrix import PyImageMatrix
 from wndcharm.FeatureVector import FeatureVector
 import time
 
+import sys
+
+projectpath='/home/tbacoyannis/Desktop/LOB/Pipeline/'
+
+modulepath=projectpath+'src/Module'
+
+if modulepath not in sys.path:
+    sys.path.append(modulepath)
+    
+OmeroPath='/home/tbacoyannis/Desktop/LOB/OMERO.py-5.2.7-ice36-b40/lib/python/'
+
+if OmeroPath not in sys.path:
+    sys.path.append(OmeroPath)
+
 
 
 
@@ -47,8 +61,7 @@ def Get_proba(ind,h,w, M_mean,nb_features):
     img=np.empty([h,w,3])
     GRAY_IM=np.empty([h,w])
     img=M_mean[:,:,:][ind]
-    for d, label in enumerate( ('r', 'g', 'b')):
-        plane = img[:,:,d]
+    
     gray_img = rgb2gray(img)
     gray_img = (gray_img * 255 ).astype( np.uint8 )
     GRAY_IM[:,:]=gray_img-np.mean(gray_img)
@@ -78,14 +91,16 @@ def Get_proba(ind,h,w, M_mean,nb_features):
     params = dict(reduce_dim__n_components=90,Random_Forest__n_estimators=200,Random_Forest__random_state=0)
     
     
-    filename_FVN =projectpath+'io/Output/FV_N.npy'
-    FV_N=np.load(filename_FVN)
+   
+    filename_Features_two_blocs=projectpath+'io/Output/Features_two_blocs.npy'
+    FV_N=np.load(filename_Features_two_blocs)
     X=FV_N  
     
     Data_FRAMES=pd.read_pickle(projectpath+'io/Output/Dataframe_.pkl')
     yr=Get_true_y(Data_FRAMES)
     
     filename_yr =projectpath+'io/Output/yr.npy'
+    np.save(filename_yr, yr)
     yr=np.load(filename_yr)
   
     RFC=RandomForestClassifier(n_estimators=200, random_state=0)

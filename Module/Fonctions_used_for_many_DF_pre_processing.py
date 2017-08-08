@@ -36,5 +36,6 @@ def exclure(dfin,weight,height):
 # Exclure les x et y negatifs sinon ca ne fonctionne pas! 
 def exclure_Bc(dfin,weight,height):
     d=dfin.loc[dfin.Y<=(np.max([dfin.Y])-height/2)]
-    dfout=d.loc[d.X<=(max(d.X)-weight/2)]
+    dfou=d.loc[d.X<=(max(d.X)-weight/2)]
+    dfout=dfou.loc[dfou.X!=0]
     return(dfout)
