@@ -57,7 +57,7 @@ def Get_true_y(DF):
     return(yr)
 
 
-def Get_proba(ind,h,w, M_mean,nb_features):
+def Get_feat_test(ind,h,w, M_mean,nb_features):
     img=np.empty([h,w,3])
     GRAY_IM=np.empty([h,w])
     img=M_mean[:,:,:][ind]
@@ -82,46 +82,9 @@ def Get_proba(ind,h,w, M_mean,nb_features):
     FV
     FV=FV.astype(float)
     
-    pca = decomposition.PCA()
-    RFC= RandomForestClassifier()
-
-    estimators = [('reduce_dim', pca), ('Random_Forest', RFC)]
-    pipe = Pipeline(estimators)
-    
-    params = dict(reduce_dim__n_components=90,Random_Forest__n_estimators=200,Random_Forest__random_state=0)
-    
-    
-   
-    filename_Features_two_blocs=projectpath+'io/Output/Features_two_blocs.npy'
-    FV_N=np.load(filename_Features_two_blocs)
-    X=FV_N  
-    
-    Data_FRAMES=pd.read_pickle(projectpath+'io/Output/Dataframe_.pkl')
-    yr=Get_true_y(Data_FRAMES)
-    
-    filename_yr =projectpath+'io/Output/yr.npy'
-    np.save(filename_yr, yr)
-    yr=np.load(filename_yr)
-  
-    RFC=RandomForestClassifier(n_estimators=200, random_state=0)
-    
-    
-    predictedVAL = cross_val_predict(RFC, X, yr , n_jobs =-1)
-    metrics.accuracy_score(yr, predictedVAL) 
-    Conf_Mat=confusion_matrix(yr, predictedVAL)
 
     
-    RFC.fit(X, yr)
-    
-    predict_probab=np.ones([M_mean.shape[0],3])
-    
-    predict_proba=RFC.predict_proba(FV)
-    
-    predict_probab[ind,0]=predict_proba[:,0]
-    predict_probab[ind,1]=predict_proba[:,1]
-    predict_probab[ind,2]=predict_proba[:,2]
-    
-    return(predict_probab)
+    return(FV)
 
 
 
