@@ -112,10 +112,8 @@ def get_coordinates_test(index_ligne,imageId, large, delta_x,z,x_min,y_min,x_max
     nb_fenetres=np.arange(size_x/delta_x)
     index=nb_fenetres
     
-    x=(index*delta_x)+delta_x+x_min
-    #x=x[22:-22]
-    
-    y=((index_ligne*delta_x)+delta_x+y_min)*np.ones(len(x)) #(index))
+    x=(index*delta_x)+x_min
+    y=((index_ligne*delta_x)+y_min)*np.ones(len(x)) 
     
     index_colonne=index+2
     index_lignee=(2+index_ligne)*np.ones(len(x)) 
